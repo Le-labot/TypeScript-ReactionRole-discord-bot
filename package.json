@@ -1,0 +1,30 @@
+{
+  "name": "TypeScript-ReactionRole-discord-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "watch": "node_modules/.bin/tsc -w",
+    "build": "node_modules/.bin/tsc",
+    "start": "nodemon build/main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Le-labot/TypeScript-ReactionRole-discord-bot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Le-labot/TypeScript-ReactionRole-discord-bot/issues"
+  },
+  "homepage": "https://github.com/Le-labot/TypeScript-ReactionRole-discord-bot#readme",
+  "dependencies": {
+    "discord.js": "^12.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.11",
+    "@types/nodemon": "^1.19.0",
+    "typescript": "^3.9.5"
+  }
+}

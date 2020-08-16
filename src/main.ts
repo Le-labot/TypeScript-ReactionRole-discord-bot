@@ -41,17 +41,15 @@ client.on("message", (message: Message) => {
     }
 })
 
-const events: {
-    MESSAGE_REACTION_ADD: string,
-    MESSAGE_REACTION_REMOVE: string
-} = {
+const events = {
     MESSAGE_REACTION_ADD: 'messageReactionAdd',
     MESSAGE_REACTION_REMOVE: 'messageReactionRemove'
 }
-client.on("raw", async events => {
-    if (!events.hasOwnProperty(events.t)) return;
-
-    const { d: data } = events;
+client.on("raw", async event => {
+    
+    if (!events.hasOwnProperty(event.t)) return;
+console.log('test')
+    const { d: data } = event;
     const user: User = client.users.cache.find((user: User) => user.id == data.user_id);
     const channel: TextChannel = client.channels.cache.find((ch: TextChannel) => ch.id == data.channel_id);
 
@@ -59,19 +57,19 @@ client.on("raw", async events => {
     const member: GuildMember = message.guild.members.cache.get(user.id);
 
 
-    if ((message.author.id === client.user.id) && (message.content !== client.config.reactionRole.initialMessage)) {
+    if ((message.author.id === client.user.id) && (message.content !== config.initialMessage)) {
         const regex: string = `\\*\\*"(.+)?(?="\\*\\*)`;
         if (message.content.match(regex) === null) return;
         const roleName: string = message.content.match(regex)[1];
 
-        if (!roleName) return
+        if (!roleName) return console.log("Role not detected in message")
         if (member.id !== client.user.id) {
             const guildRole: Role = message.guild.roles.cache.find((r: Role) => r.name === roleName);
             if (!guildRole) return console.log("Role not found or nonexistent");
-            if (events.t === "MESSAGE_REACTION_ADD") {
+            if (event.t === "MESSAGE_REACTION_ADD") {
                 member.roles.add(guildRole);
                 message.channel.send('Well done ! You now have access to several channels').then((m: Message) => m.delete({ timeout: 3000 }));
-            } else if (events.t === "MESSAGE_REACTION_REMOVE") {
+            } else if (event.t === "MESSAGE_REACTION_REMOVE") {
                 member.roles.remove(guildRole);
             }
         }
